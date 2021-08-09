@@ -1,0 +1,1 @@
+Exercises from Mark Gregoire's book Professional C++ (2021)
