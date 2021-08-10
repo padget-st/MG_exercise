@@ -1,1 +1,1 @@
-Exercises from Mark Gregoire's book Professional C++ (2021)
+Exercises from Marc Gregoire's book Professional C++ (2021)
