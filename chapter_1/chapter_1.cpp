@@ -6,7 +6,8 @@
 #include <initializer_list>
 #include "ImportSTDUnits.h"
 import Employee;
-import airline_ticket;
+import airline_ticket;
+
 //import RealEmployee;
 //import HRHelper;
 
@@ -155,7 +156,11 @@ int main()
     AirlineTicket ticket;
     ticket.setNumberOfMiles(1'000);
     ticket.setPassengerName("Boris Johnson");
+    ticket.setFrequentFlyerNumber(120);
 
-    std::cout << std::format("Passenger's name: {}, miles: {}, has elite status: {}",
+    std::cout << std::format("Passenger's name: {}, miles: {}, has elite status: {}\n",
         ticket.getPassengerName(), ticket.getNumberOfMiles(), ticket.hasEliteSuperRewardsStatus());
+    auto frFlNum{ ticket.getFrequentFlyerNumber() };
+    std::cout << "Frequent Flyer Number: ";
+    std::cout << frFlNum.value_or(0);
 }

@@ -22,7 +22,7 @@ public:
 	void setEliteSuperRewardsStatus(const bool status);
 
 	std::optional<int> getFrequentFlyerNumber();
-	void setFrequentFlyerNumber(const bool freqNumber);
+	void setFrequentFlyerNumber(const int freqNumber);
 };
 
 double AirlineTicket::calculatePriceInDollars()
@@ -70,9 +70,10 @@ std::optional<int> AirlineTicket::getFrequentFlyerNumber()
 	{
 		return std::optional<int>{m_frequentFlyerNumber};
 	}
-	else
-	{
-		return std::nullopt;
-	}//m_frequentFlyerNumber ? m_frequentFlyerNumber : std::nullopt;
+	return std::nullopt;//m_frequentFlyerNumber ? m_frequentFlyerNumber : std::nullopt;
 }
-void setFrequentFlyerNumber(const bool freqNumber);
+
+void AirlineTicket::setFrequentFlyerNumber(const int freqNumber)
+{
+	m_frequentFlyerNumber = freqNumber;
+}
