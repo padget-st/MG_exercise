@@ -21,5 +21,11 @@
     <ClCompile Include="Employee.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ImportSTDUnits.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="airline_ticket.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

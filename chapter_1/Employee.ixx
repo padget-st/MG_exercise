@@ -1,9 +1,18 @@
 export module Employee;
 
-export struct Employee
+namespace HR
 {
-	char firstInitial;
-	char secondInitial;
-	int employeeNumber;
-	int salary;
-};
+	export enum class title : int
+	{
+		Manager, SeniorEngineer, Engineer
+	};
+
+	export struct Employee
+	{
+		char firstInitial;
+		char secondInitial;
+		int employeeNumber;
+		int salary;
+		title employeeTitle;
+	};
+}

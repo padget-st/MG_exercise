@@ -4,7 +4,11 @@
 #include <array>
 #include <optional>
 #include <initializer_list>
+#include "ImportSTDUnits.h"
 import Employee;
+import airline_ticket;
+//import RealEmployee;
+//import HRHelper;
 
 /*[[nodiscard("Error_code_returns")]]*/ int returnCode() noexcept
 {
@@ -37,7 +41,7 @@ auto initListAvg(std::initializer_list<int> list)
 
 int main()
 {
-    Employee employee;
+    /*Employee employee;
     employee.firstInitial = 'J';
     employee.secondInitial = 'D';
     employee.employeeNumber = 43;
@@ -97,4 +101,61 @@ int main()
         .salary{100'000}
     };
     std::cout << empl.secondInitial << " " << empl.salary << "\n";
+
+    Records::Employee empl2("John", "Doe");
+    empl2.promote();
+    empl2.display();*/
+    
+    //Records::HRHelper hr;
+    //hr.start();
+
+    /*HR::Employee empl1
+    {
+        .firstInitial{'J'},
+        .secondInitial{'D'},
+        .employeeNumber{43},
+        .salary{4000},
+        .employeeTitle{HR::title::Engineer}
+    };
+
+    switch (empl1.employeeTitle)
+    {
+    case HR::title::Manager:
+        std::cout << "Manager\n";
+        break;
+    case HR::title::SeniorEngineer:
+        std::cout << "Senior Engineer\n";
+        break;
+    case HR::title::Engineer:
+        std::cout << "Engineer\n";
+        break;
+    default:
+        std::cout << "Unknown title\n";
+    }
+
+    HR::Employee empl2{ 'A', 'A', 45, 2000, HR::title::SeniorEngineer };
+    HR::Employee empl3{ 'F', 'S', 46, 2500, HR::title::Manager };
+
+    std::array<HR::Employee, 3> empl_arr;
+    empl_arr[0] = empl1;
+    empl_arr[1] = empl2;
+    empl_arr[2] = empl3;
+
+    std::vector<HR::Employee> empl_v;
+    empl_v.push_back(empl1);
+    empl_v.push_back(empl2);
+    empl_v.push_back(empl3);*/
+
+    //for (const auto& employee : empl_v /*empl_arr*/)
+    /*{
+        std::cout << std::format("Employee: {}{}, number: {}, salary: {}\n",
+            employee.firstInitial, employee.secondInitial, employee.employeeNumber, employee.salary);
+    }*/
+
+    AirlineTicket ticket;
+    ticket.setNumberOfMiles(1'000);
+    ticket.setPassengerName("Boris Johnson");
+
+    std::cout << std::format("Passenger's name: {}, miles: {}, has elite status: {}",
+        ticket.getPassengerName(), ticket.getNumberOfMiles(), ticket.hasEliteSuperRewardsStatus());
 }
