@@ -31,6 +31,7 @@ public:
 
 	void setCellAt(size_t x, size_t y, const SpreadsheetCell& cell);
 	SpreadsheetCell& getCellAt(size_t x, size_t y);
+	const SpreadsheetCell& getCellAt(size_t x, size_t y) const;
 };
 
 void Spreadsheet::swap(Spreadsheet& other) noexcept
@@ -125,8 +126,13 @@ void Spreadsheet::setCellAt(size_t x, size_t y, const SpreadsheetCell& cell)
 	m_cells[x][y] = cell;
 }
 
-SpreadsheetCell& Spreadsheet::getCellAt(size_t x, size_t y)
+const SpreadsheetCell& Spreadsheet::getCellAt(size_t x, size_t y) const
 {
 	verifyCoordinate(x, y);
 	return m_cells[x][y];
+}
+
+SpreadsheetCell& Spreadsheet::getCellAt(size_t x, size_t y)
+{
+	return const_cast<SpreadsheetCell&>(std::as_const(*this).getCellAt(x, y));
 }

@@ -11,8 +11,8 @@ export class SpreadsheetCell
 private:
 	double m_value{ 0 };
 
-	std::string doubleToString(double value) const;
-	double stringToDouble(std::string_view value) const;
+	static std::string doubleToString(double value);
+	static double stringToDouble(std::string_view value);
 
 public:
 	SpreadsheetCell() = default;
@@ -73,12 +73,12 @@ std::string SpreadsheetCell::getString() const
 	return doubleToString(m_value);
 }
 
-std::string SpreadsheetCell::doubleToString(double value) const
+std::string SpreadsheetCell::doubleToString(double value)
 {
 	return std::to_string(value);
 }
 
-double SpreadsheetCell::stringToDouble(std::string_view value) const
+double SpreadsheetCell::stringToDouble(std::string_view value)
 {
 	double number{ 0 };
 	std::from_chars(value.data(), value.data() + value.size(), number);

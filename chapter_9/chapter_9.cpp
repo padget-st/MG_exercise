@@ -1,4 +1,5 @@
-import Spreadsheet_module;
+import Spreadsheet_module;
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -62,7 +63,46 @@ void testMoveOperators()
     s2 = s;
 }
 
+//testing ref-qualifiers
+class TextHolder
+{
+private:
+    std::string m_text;
+public:
+    TextHolder(std::string text) : m_text(std::move(text))
+    {}
+
+    const std::string& getText() const &
+    {
+        std::cout << "calls &\n";
+        return m_text;
+    }
+
+    std::string&& getText() &&
+    {
+        std::cout << "calls &&\n";
+        return std::move(m_text);
+    }
+
+    ~TextHolder()
+    {
+        std::cout << "before being destructed m_text has: "
+            << m_text << std::endl;
+    }
+};
+
+void testTextHolder()
+{
+    TextHolder th{ "Hello, World!" };
+    std::cout << th.getText() << std::endl;
+    std::cout << TextHolder{ "Hello, the second World!" }.getText() << std::endl;
+    std::cout << std::move(th).getText() << std::endl;
+
+    TextHolder th2{ TextHolder{"copy!"}.getText() };
+}
+
 int main()
 {
-    testMoveOperators();
+    //testMoveOperators();
+    testTextHolder();
 }
