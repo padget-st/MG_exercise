@@ -1,4 +1,6 @@
 import Spreadsheet_module;
+//import Person_module;
+import PersonInter_module;
 
 #include <iostream>
 #include <string>
@@ -101,9 +103,65 @@ void testTextHolder()
     TextHolder th2{ TextHolder{"copy!"}.getText() };
 }
 
+
+//UNRESOLVED ERROR: dereferencing nullptr
+void printPersonInter(const PersonInter& PersonInter)
+{
+    std::cout << "\nFirst name: " << PersonInter.getFirstName() << std::endl
+        << "Last name: " << PersonInter.getLastName() << std::endl
+        << "Initials: " << PersonInter.getInitials() << std::endl << std::endl;
+}
+
+//test function for exercise9_1
+void exercise9_1()
+{
+    //normal ctor and delegating
+    PersonInter pers1("John", "Doe");
+    printPersonInter(pers1);
+
+    //normal ctor
+    PersonInter pers2("Frank", "Joe", "F.J.");
+    printPersonInter(pers2);
+
+    //copy ctor
+    PersonInter pers3{ pers1 };
+    printPersonInter(pers3);
+
+    //copy assignment and copy ctor
+    pers3 = pers2;
+    printPersonInter(pers3);
+
+    //move ctor
+    PersonInter pers4{ std::move(pers1) };
+    printPersonInter(pers4);
+    printPersonInter(pers1);
+
+    //move ctor and move assignment
+    pers2 = PersonInter{ std::move(pers4) };
+    printPersonInter(pers2);
+    printPersonInter(pers4);
+}
+
+//test function for exercise9_2 and 9_3
+void exercise9_2and3()
+{
+    PersonInter pers1{ "John", "Doe" }, pers2{ "Mark", "Allis" };
+    std::cout << (pers1 == pers2) << std::endl;
+    std::cout << (pers1 != pers2) << std::endl;
+    std::cout << (pers1 <= pers2) << std::endl;
+    std::cout << (pers1 >= pers2) << std::endl;
+    std::cout << (pers1 < pers2) << std::endl;
+    std::cout << (pers1 > pers2) << std::endl;
+    //0 1 1 0 1 0
+}
+
 int main()
 {
     //testMoveOperators();
     //testTextHolder();
-    
+    //exercise9_2and3();
+
+    PersonInter pint("john", "doe", "J.D.");
+    exercise9_2and3();
+    exercise9_1();
 }

@@ -27,5 +27,11 @@
     <ClCompile Include="Person.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PersonInter.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PersonInter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

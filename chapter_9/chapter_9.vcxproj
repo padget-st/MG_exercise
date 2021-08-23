@@ -147,6 +147,8 @@
     <ClCompile Include="..\chapter_8\SpreadsheetCell.ixx" />
     <ClCompile Include="chapter_9.cpp" />
     <ClCompile Include="Person.ixx" />
+    <ClCompile Include="PersonInter.cpp" />
+    <ClCompile Include="PersonInter.ixx" />
     <ClCompile Include="Spreadsheet.ixx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
