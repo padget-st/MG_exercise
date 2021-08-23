@@ -104,5 +104,6 @@ void testTextHolder()
 int main()
 {
     //testMoveOperators();
-    testTextHolder();
+    //testTextHolder();
+    
 }

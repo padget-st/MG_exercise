@@ -15,11 +15,15 @@ private:
 	size_t m_width{};
 	size_t m_height{};
 	SpreadsheetCell** m_cells{ nullptr };
+	static inline size_t m_counter{};
+	const size_t m_id{};
+	static const size_t MaxWidth{ 100 };
+	static const size_t MaxHeight{ 100 };
 
 	void verifyCoordinate(size_t x, size_t y) const;
 
 public:
-	Spreadsheet(size_t width, size_t height);
+	Spreadsheet(size_t width = MaxWidth, size_t height = MaxHeight);
 	Spreadsheet(const Spreadsheet& source);
 	Spreadsheet(Spreadsheet&& source) noexcept;
 
@@ -32,6 +36,12 @@ public:
 	void setCellAt(size_t x, size_t y, const SpreadsheetCell& cell);
 	SpreadsheetCell& getCellAt(size_t x, size_t y);
 	const SpreadsheetCell& getCellAt(size_t x, size_t y) const;
+
+	size_t getWidth() const;
+	size_t getHeight() const;
+
+	static size_t getMaxWidth();
+	static size_t getMaxHeight();
 };
 
 void Spreadsheet::swap(Spreadsheet& other) noexcept
@@ -47,7 +57,8 @@ export void swap(Spreadsheet& lhSpreadsheet, Spreadsheet& rhSpreadsheet) noexcep
 }
 
 Spreadsheet::Spreadsheet(size_t width, size_t height)
-	: m_width{width}, m_height{height}
+	: m_id{ m_counter++ }, m_width {std::min(width, MaxWidth)},
+	m_height{std::max(height, MaxHeight) }
 {
 	std::cout << "Usual ctor" << std::endl;
 
@@ -73,6 +84,7 @@ Spreadsheet::Spreadsheet(const Spreadsheet& source)
 }
 
 Spreadsheet::Spreadsheet(Spreadsheet&& source) noexcept
+	: m_id{ m_counter++ }
 {
 	std::cout << "Move ctor" << std::endl;
 	swap(source);
@@ -135,4 +147,23 @@ const SpreadsheetCell& Spreadsheet::getCellAt(size_t x, size_t y) const
 SpreadsheetCell& Spreadsheet::getCellAt(size_t x, size_t y)
 {
 	return const_cast<SpreadsheetCell&>(std::as_const(*this).getCellAt(x, y));
+}
+
+size_t Spreadsheet::getWidth() const
+{
+	return m_width;
+}
+
+size_t Spreadsheet::getHeight() const
+{
+	return m_height;
+}
+
+size_t Spreadsheet::getMaxWidth()
+{
+	return MaxWidth;
+}
+size_t Spreadsheet::getMaxHeight()
+{
+	return MaxWidth;
 }
