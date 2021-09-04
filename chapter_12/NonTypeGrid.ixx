@@ -3,6 +3,7 @@ export module NonTypeGrid_module;
 import <optional>;
 import <stdexcept>;
 import <iostream>;
+import <string>;
 
 export template <typename T = int, size_t WIDTH = 10, size_t HEIGHT = 10>
 class NonTypeGrid
@@ -21,12 +22,22 @@ public:
 	NonTypeGrid(NonTypeGrid&&) noexcept;
 	NonTypeGrid& operator=(NonTypeGrid&&) noexcept;
 
+	//template c'tor
+	template <typename E, size_t WIDTH2, size_t HEIGHT2>
+	NonTypeGrid(const NonTypeGrid<E, WIDTH2, HEIGHT2>&);
+
+	//template copy assignment
+	template <typename E, size_t WIDTH2, size_t HEIGHT2>
+	NonTypeGrid& operator=(const NonTypeGrid<E, WIDTH2, HEIGHT2>&);
+
 	std::optional<T>& at(size_t, size_t);
 	const std::optional<T>& at(size_t, size_t) const;
 
 	size_t getWidth() const { return WIDTH; }
 	size_t getHeight() const { return HEIGHT; }
 };
+
+NonTypeGrid(const char*)->NonTypeGrid<std::string>;
 
 template <typename T, size_t WIDTH, size_t HEIGHT>
 void NonTypeGrid<T, WIDTH, HEIGHT>::swap(NonTypeGrid& grid) noexcept
@@ -44,6 +55,37 @@ template <typename T, size_t WIDTH, size_t HEIGHT>
 NonTypeGrid<T, WIDTH, HEIGHT>& NonTypeGrid<T, WIDTH, HEIGHT>::operator=(NonTypeGrid&& grid) noexcept
 {
 	swap(grid);
+	return *this;
+}
+
+//template c'tor
+template <typename T, size_t WIDTH, size_t HEIGHT>
+template <typename E, size_t WIDTH2, size_t HEIGHT2>
+NonTypeGrid<T, WIDTH, HEIGHT>::NonTypeGrid(const NonTypeGrid<E, WIDTH2, HEIGHT2>& grid)
+{
+	for (size_t i{}; i < WIDTH; i++)
+	{
+		for (size_t j{}; j < HEIGHT; j++)
+		{
+			if (i < WIDTH2 && j < HEIGHT2)
+			{
+				m_cells[i][j] = grid.at(i, j);
+			}
+			else
+			{
+				m_cells[i][j].reset();
+			}
+		}
+	}
+}
+
+//template copy assignment
+template <typename T, size_t WIDTH, size_t HEIGHT>
+template <typename E, size_t WIDTH2, size_t HEIGHT2>
+NonTypeGrid<T, WIDTH, HEIGHT>& NonTypeGrid<T, WIDTH, HEIGHT>::operator=(const NonTypeGrid<E, WIDTH2, HEIGHT2>& grid)
+{
+	NonTypeGrid<T, WIDTH, HEIGHT> temp{ grid };
+	swap(temp);
 	return *this;
 }
 

@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="chapter_12.cpp" />
+    <ClCompile Include="KeyValuePair.ixx" />
     <ClCompile Include="NonTypeGrid.ixx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
