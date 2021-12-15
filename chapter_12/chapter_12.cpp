@@ -3,6 +3,10 @@ import KeyValuePair_nodule;
 
 #include <iostream>
 #include <numbers>
+#include <charconv>
+#include <concepts>
+#include <string>
+#include <string_view>
 
 template <typename T, size_t WIDTH, size_t HEIGHT>
 void printNonTypeGrid(const NonTypeGrid<T, WIDTH, HEIGHT>& grid)
@@ -120,12 +124,77 @@ void exercise12_1()
 
 void exercise12_2()
 {
-    KeyValuePair strPair("John Doe", "New York");
+    KeyValuePair<const char*, const char*> strPair("John Doe", "New York");
     printKeyValuePair(strPair);
+}
+
+template <typename T>
+concept SupportsToString = requires(const T& t) { std::to_string(t); };
+
+template <typename T>
+concept SupportsNumbers = std::integral<T> || std::floating_point<T>;
+
+//template <SupportsToString T, SupportsToString R>
+//auto myConcat(const T& t1, const R& t2)
+auto myConcat(const SupportsToString auto& t1, const SupportsToString auto& t2)
+{
+    return std::to_string(t1) + std::to_string(t2);
+}
+
+auto myConcat(std::string_view t1, std::string_view t2)
+{
+    return std::string{ t1 } + std::string{ t2 };
+}
+
+auto myConcat(std::string_view t1, const SupportsToString auto& t2)
+{
+    return std::string{ t1 } + std::to_string(t2);
+}
+
+auto myConcat(const SupportsToString auto& t1, std::string_view t2)
+{
+    return std::to_string(t1) + std::string{ t2 };
+}
+
+void exercise12_5()
+{
+    std::cout << myConcat(1, 1) << std::endl
+        << myConcat(1, "two") << std::endl
+        << myConcat("three", 5) << std::endl
+        << myConcat("six", "eight") << std::endl;
+}
+
+//exercise12_6
+constexpr size_t NOT_FOUND{ static_cast<size_t>(-1) };
+
+template<typename T>
+concept Findable = requires(const T & t)
+{
+    {t == t} -> std::convertible_to<bool>;
+};
+
+template<typename T> requires std::equality_comparable<T>//Findable<T>
+size_t Find(const T& value, const T* arr, size_t size)
+{
+    for (size_t i{}; i < size; i++)
+    {
+        if (arr[i] == value)
+        {
+            return i;
+        }
+    }
+    return NOT_FOUND;
+}
+
+void exercise12_6()
+{
+    char strArr[]{ 'J', 'H', 'A' };
+    size_t size{ std::size(strArr) };
+    std::cout << Find('G', strArr, size);
 }
 
 int main()
 {
-    exercise12_2();
+    exercise12_6();
 }
 
