@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <concepts>
 #include "Grid.h"
 
 template <typename T1, typename T2>
@@ -46,9 +48,118 @@ void testPItemplate()
     std::cout << std::endl << pi_float << " " << pi_double << " " << pi_int;
 }
 
+template <std::integral K, std::floating_point V> 
+class KeyValuePair
+{
+public:
+    KeyValuePair(const K& key, const V& value);
+
+    void setKey(const K& key);
+    K getKey() const;
+
+    void setValue(const V& value);
+    V getValue() const;
+
+private:
+    K m_key;
+    V m_value;
+};
+
+template<std::integral K, std::floating_point V>
+KeyValuePair<K, V>::KeyValuePair(const K& key, const V& value)
+    : m_key{ key }, m_value{ value } {}
+
+template<std::integral K, std::floating_point V>
+void KeyValuePair<K, V>::setKey(const K& key) { m_key = key; };
+
+template<std::integral K, std::floating_point V>
+K KeyValuePair<K, V>::getKey() const { return m_key; };
+
+template<std::integral K, std::floating_point V>
+void KeyValuePair<K, V>::setValue(const V& value) { m_value = value; };
+
+template<std::integral K, std::floating_point V>
+V KeyValuePair<K, V>::getValue() const { return m_value; };
+
+/*template <>
+class KeyValuePair< const char*, const char* >
+{
+public:
+    KeyValuePair(const char* key, const char* value)
+        : m_key{ key }, m_value{ value } {}
+
+    void setKey(const char* key) { m_key = key; }
+    std::string getKey() const { return m_key; }
+
+    void setValue(const char* value) { m_value = value; }
+    std::string getValue() const { return m_value; }
+
+private:
+    std::string m_key{};
+    std::string m_value{};
+};*/
+
+template <typename T>
+concept ConvertsToString = requires(const T & x) { std::to_string(x); };
+
+auto concat(const ConvertsToString auto& t1, const ConvertsToString auto& t2)
+{
+    return std::to_string(t1) + std::to_string(t2);
+}
+
+auto concat(std::string_view t1, std::string_view t2)
+{
+    return std::string{ t1 } + std::string{ t2 };
+}
+
+auto concat(std::string_view t1, const ConvertsToString auto& t2)
+{
+    return std::string{ t1 } + std::to_string( t2 );
+}
+
+auto concat(const ConvertsToString auto& t1, std::string_view t2)
+{
+    return std::to_string( t1 ) + std::string{ t2 };
+}
+
+void testKeyValuePair() //exercise 1
+{
+    /*KeyValuePair<double, Grid<>> pair(1.1, Grid());
+
+    pair.setKey(2.2);
+    Grid<> grid;
+    grid.at(1, 1) = 17;
+    pair.setValue(grid);
+    std::cout << std::endl << pair.getKey() << " " << pair.getValue().at(1, 1).value_or(0);*/
+}
+
+void testKeyValuePairString() //exercise 2
+{
+    /*KeyValuePair<const char*, const char*> str_pair("Marion", "Krane");
+    std::cout << std::endl << str_pair.getKey() << " " << str_pair.getValue();*/
+}
+
+void testKeyValuePairIntFloat() //exercise 3
+{
+    KeyValuePair<int, double> pair(4, 4.4);
+    std::cout << std::endl << pair.getKey() << " " << pair.getValue();
+}
+
+void testConcatFirst() //exercise 4
+{
+    std::cout << concat(2.5, 4);
+}
+
+void testConcatSecond() //exercise 5
+{
+    std::cout << concat(4, 2.5)
+        << '\n' << concat("str", 2.5)
+        << '\n' << concat(2.5, "str")
+        << '\n' << concat("str", "str");
+}
+
 int main()
 {
-    testAddFunc();
-    testPItemplate();
+    testConcatSecond();
 }
 
